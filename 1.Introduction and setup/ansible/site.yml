@@ -1,0 +1,89 @@
+---
+- name: Configure Load Balancer
+  hosts: loadbalancer
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+        
+    - name: Configure Nginx
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
+- name: Common Setup for K3s Nodes
+  hosts: k3s_cluster
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        
+    - name: Install dependencies
+      apt:
+        name: curl
+        state: present
+
+- name: Initialize First Master
+  hosts: masters[0]
+  become: yes
+  tasks:
+    - name: Install K3s server (init)
+      shell: curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san {{ hostvars[groups['loadbalancer'][0]].inventory_hostname }} --node-ip {{ inventory_hostname }} --flannel-iface eth1
+      args:
+        creates: /etc/rancher/k3s/k3s.yaml
+
+    - name: Get K3s token
+      slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+
+    - name: Set k3s_token fact
+      set_fact:
+        k3s_token: "{{ k3s_token.content | b64decode | trim }}"
+
+- name: Join Remaining Masters
+  hosts: masters[1:]
+  become: yes
+  tasks:
+    - name: Install K3s server (join)
+      shell: curl -sfL https://get.k3s.io | K3S_TOKEN={{ hostvars[groups['masters'][0]].k3s_token }} sh -s - server --server https://{{ hostvars[groups['masters'][0]].inventory_hostname }}:6443 --tls-san {{ hostvars[groups['loadbalancer'][0]].inventory_hostname }} --node-ip {{ inventory_hostname }} --flannel-iface eth1
+      args:
+        creates: /etc/rancher/k3s/k3s.yaml
+
+- name: Join Workers
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Install K3s agent
+      shell: curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars[groups['loadbalancer'][0]].inventory_hostname }}:6443 K3S_TOKEN={{ hostvars[groups['masters'][0]].k3s_token }} sh -s - agent --node-ip {{ inventory_hostname }} --flannel-iface eth1
+      args:
+        creates: /etc/systemd/system/k3s-agent.service
+
+- name: Fetch kubeconfig to host
+  hosts: masters[0]
+  become: yes
+  tasks:
+    - name: Fetch kubeconfig
+      fetch:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: ../kubeconfig
+        flat: yes
+
+    - name: Replace IP in kubeconfig
+      delegate_to: localhost
+      become: no
+      replace:
+        path: ../kubeconfig
+        regexp: '127\.0\.0\.1'
+        replace: "{{ hostvars[groups['loadbalancer'][0]].inventory_hostname }}"

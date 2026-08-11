@@ -1,0 +1,21 @@
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+    worker_connections 768;
+}
+
+stream {
+    upstream k3s_api {
+{% for host in groups['masters'] %}
+        server {{ host }}:6443;
+{% endfor %}
+    }
+
+    server {
+        listen 6443;
+        proxy_pass k3s_api;
+    }
+}

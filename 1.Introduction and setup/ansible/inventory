@@ -1,0 +1,19 @@
+[loadbalancer]
+192.168.56.10 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-lb/virtualbox/private_key
+
+[masters]
+192.168.56.11 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-master-1/virtualbox/private_key
+192.168.56.12 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-master-2/virtualbox/private_key
+192.168.56.13 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-master-3/virtualbox/private_key
+
+[workers]
+192.168.56.21 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-worker-1/virtualbox/private_key
+192.168.56.22 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-worker-2/virtualbox/private_key
+192.168.56.23 ansible_user=vagrant ansible_ssh_private_key_file=../.vagrant/machines/k3s-worker-3/virtualbox/private_key
+
+[k3s_cluster:children]
+masters
+workers
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
