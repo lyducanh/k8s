@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: impossible-pod
+  labels:
+    app: hungry
+spec:
+  containers:
+  - name: hungry-nginx
+    image: nginx
+    resources:
+      requests:
+        cpu: "2"       # Requesting 10 CPU cores
+        memory: "2Gi"  # Requesting 10 Gigabytes of RAM
