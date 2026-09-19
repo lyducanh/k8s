@@ -1,0 +1,18 @@
+# This Kubernetes manifest defines a Service of type NodePort for the "node-exporter" application. 
+# The service exposes node-exporter's TCP port 9100 on each Kubernetes node, making it accessible externally.
+# It is namespaced to "prometheus-node-exporter". Typically, node-exporter is used to collect hardware and OS metrics.
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-exporter
+  namespace: prometheus-node-exporter
+spec:
+  selector:
+    app: node-exporter
+  ports:
+    - name: node-exporter
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  type: NodePort

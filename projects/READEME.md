@@ -1,0 +1,4 @@
+- https://www.google.com/search?sca_esv=81ef8ac98c35c5fb&udm=2&fbs=ADc_l-ZXQWBHI_L0epjkf31fijnbqvX5MwZIKhoFdCAPtOZ8ZizjgYLaSjbHVASqLiTPsxTAnv5IkySh6T3CbDFSXrKYzMn-DuZqIYWel1NUpRu9KvHm8LcAuacOWd1CQGl4HhZ-VBI3-744QMqTpbUzUnWWSF_HCqimgYtw-V_zS0Pfg8kWW1aLt_pkoGjhL5qgHotdck2tXj8oXkD4k8aDfG_VLLT3W7jd6igA-cMsa8OBkpCDceJsZPKt8B7y66E2rLwVIEuy&q=k8s+project&sa=X&ved=2ahUKEwjzusPvjeyTAxVysVYBHXrzGhcQtKgLegQIDxAB&biw=2490&bih=1292&dpr=1#sv=CAMSVhoyKhBlLTJpQTk4N2k3ZzhQZHFNMg4yaUE5ODdpN2c4UGRxTToONGZZSHNKZUJxamphX00gBCocCgZtb3NhaWMSEGUtMmlBOTg3aTdnOFBkcU0YADABGAcg_LzWqgNKCBACGAEgAigB
+- https://sayantansamanta098.medium.com/project-06-end-to-end-kubernetes-kubeadm-ci-cd-with-dockerized-jenkins-and-ansible-e2a7b8dd5169
+- https://www.projectpro.io/article/kubernetes-projects/859
+- https://talent500.com/blog/kubernetes-best-practices-for-production/
