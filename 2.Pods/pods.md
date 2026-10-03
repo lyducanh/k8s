@@ -25,15 +25,19 @@
 
 - Directly via a Pod manifest (static Pod)
   - kubelet process managed, if node fails, it transfer to another node that capable, still auto restart
-- Indirectly via a controller 
+- Indirectly via a controller  ( service, deplotment, statefullset) 
   - control plane monitoring the state ->  self-healing,  
   scaling, or rolling updates (via deployment)
+- when failed pod, replace by new one -> new ip address , uid -> store state and data outside pod 
+- realworld using via controller
 
 ## Single and multi container Pods
 
 - Single Nginx container  
 - Nginx + log agent container (sidecard pattern) 
 - ***CONTINUE DEMO***
+
+
 
 ## Deploying Pods
 
@@ -42,7 +46,9 @@
 3. The API server authenticates and authorizes the request
 4. The configuration (YAML) is validated
 5. The scheduler deploys the Pod to a healthy node with enough available resources (Try case no have hardware resource node ) [https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) `if non of workers node available, then pod not scheduled`. ***Try this case on Demo***
-6. The local kubelet monitors i
+6. The local kubelet monitors it
+
+
 
 ## The anatomy of a Pod
 
@@ -57,14 +63,20 @@
 - alt text
 - [https://kubernetes.io/docs/concepts/cluster-administration/networking/](https://kubernetes.io/docs/concepts/cluster-administration/networking/)
 
+
+
 ## Pod networking deep dive
 
 - [https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/](https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/) (fucking good) 
 - ***CONTINUE DEMO***
 
+
+
 ## Pod scaling
 
 - add / remove more pods, horizontal scaling
+
+
 
 ## Handson POD
 
@@ -72,10 +84,10 @@
 
 ```bash
 # Create the single Nginx pod
-kubectl apply -f "/home/ducanh/Downloads/k8s/2.Pods/single-nginx.yaml"
+kubectl apply -f "/home/ducanh/Downloads/k8s_h/2.Pods/single-nginx.yaml"
 
 # Create the Nginx + sidecar pod
-kubectl apply -f "/home/ducanh/Downloads/k8s/2.Pods/sidecar-nginx.yaml"
+kubectl apply -f "/home/ducanh/Downloads/k8s_h/2.Pods/sidecar-nginx.yaml"
 
 # View the status of your pods
 kubectl get pods
@@ -142,7 +154,7 @@ kubectl logs sidecar-nginx -c content-generator
 
 1. **Apply the impossible pod:**
   ```bash
-   kubectl apply -f "/home/ducanh/Downloads/k8s/2.Pods/pending-pod.yaml"
+   kubectl apply -f "/home/ducanh/Downloads/k8s_h/2.Pods/pending-pod.yaml"
   ```
 2. **Check the pod status:**
   You will notice the status stays as `Pending` indefinitely.
@@ -162,16 +174,20 @@ Because most configuration fields in a Pod cannot be modified after it's running
 
 ```bash
 
-export KUBECONFIG="/home/ducanh/Downloads/k8s/1.Introduction and setup/k3s/kubeconfig"
+export KUBECONFIG="/home/ducanh/Downloads/k8s_h/1.Introduction and setup/k3s/kubeconfig"
+# Or simply switch context in your local ~/.kube/config:
+# kubectl config use-context k3s-ha
 ```
+
+
 
 # Create the single Nginx pod
 
-kubectl apply -f "/home/ducanh/Downloads/k8s/2.Pods/single-nginx.yaml"
+kubectl apply -f "/home/ducanh/Downloads/k8s_h/2.Pods/single-nginx.yaml"
 
 # Create the Nginx + sidecar pod
 
-kubectl apply -f "/home/ducanh/Downloads/k8s/2.Pods/sidecar-nginx.yaml"
+kubectl apply -f "/home/ducanh/Downloads/k8s_h/2.Pods/sidecar-nginx.yaml"
 
 # View the status of your pods
 

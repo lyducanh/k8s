@@ -56,5 +56,12 @@ This plan outlines the steps to automatically provision and configure a Highly A
   3. Test your cluster access using the fetched kubeconfig:
     export KUBECONFIG=../kubeconfig
     kubectl get nodes
+
+    ```bash
+    unset KUBECONFIG
+    kubectl config use-context k3s-ha
+    kubectl get nodes
+    ```
+
     
 ```
