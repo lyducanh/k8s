@@ -227,3 +227,7 @@ kubectl describe pod single-nginx
 
 ### 6. Testing Pod Networking (Same vs Different Nodes)
 
+### Staic pod and controller wraper pods 
+
+- turn off a node:  vagrant halt k3s-worker-1
+- turn on a node: vagrant up k3s-worker-1

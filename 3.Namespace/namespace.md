@@ -4,7 +4,11 @@ a single cluster might have the following Namespaces. (each enviroment haver the
 • Dev
 • Test
 • QA
+- What they’re not good for, is isolating hostile workloads. -> create multiple cluster 
 - https://viblo.asia/p/k8s-basic-kubernetes-namespaces-oK9VyKnXJQR
+
 
 ## Handson 
 
+![hihi](/images/k8snamespace.png)
+- books 

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  # Type NodePort exposes the service on each node's IP at a static port (30000-32767).
+  # You can access it from outside the cluster via http://<NODE-IP>:30088
+  # (Alternatively, you can change type to "LoadBalancer" in k3s to get an External IP)
+  type: NodePort
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    port: 80         # Internal cluster port
+    targetPort: 80   # Container port inside Pod
+    nodePort: 30088  # External port opened on every node
+ 

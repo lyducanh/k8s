@@ -65,3 +65,41 @@ This plan outlines the steps to automatically provision and configure a Highly A
 
     
 ```
+
+## Change cluster on local machine 
+ ### Bước 1: Hủy biến KUBECONFIG (nếu đang set trong terminal hiện tại)
+
+  Nếu trước đó bạn có chạy lệnh export KUBECONFIG=..., hãy đảm bảo đã hủy nó
+  để kubectl dùng lại file cấu hình mặc định:
+
+    unset KUBECONFIG
+  ──────
+  ### Bước 2: Xem danh sách các cụm local có sẵn
+
+    kubectl config get-contexts
+  Hiện tại trên máy của bạn đang có sẵn các cụm:
+  • minikube
+  • kind-demo-cluster
+  • kind-local-ha-cluster
+  • kind-kafka
+  • kubernetes-admin@kubernetes
+  ──────
+  ### Bước 3: Chuyển sang cụm bạn muốn dùng
+
+  • Nếu muốn dùng Minikube:
+    kubectl config use-context minikube
+
+  • Nếu muốn dùng Kind:
+    kubectl config use-context kind-demo-cluster
+    # hoặc
+    kubectl config use-context kind-local-ha-cluster
+
+  • Kiểm tra xem đã chuyển thành công chưa:
+    kubectl get nodes
+
+  ──────
+  ### Khi nào muốn quay lại cụm K3s:
+
+  Chỉ cần chạy:
+
+    kubectl config use-context k3s-ha
