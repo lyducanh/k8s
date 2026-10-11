@@ -1,11 +1,10 @@
 # Kubernetes Storage Guide
-
+- https://viblo.asia/p/k8s-basic-kubernetes-storage-qPoL7X6mVvk
 ## 1. Why do we need Persistent Storage?
 - Mặc định, Pod và Container trong Kubernetes là **Ephemeral (tạm thời / không lưu trạng thái)**.
 - Khi một container crash hoặc một Pod bị xóa/recreate, toàn bộ dữ liệu ghi trong container sẽ **bị xóa sạch**.
 - **Kubernetes Persistent Storage** giải quyết bài toán này bằng cách tách rời vòng đời của dữ liệu khỏi vòng đời của Pod.
 
----
 
 ## 2. Core Concepts (Storage Architecture)
 
@@ -55,6 +54,20 @@
 ---
 
 ## 4. Hands-on: Simple Storage Demo
+
+
+- Chap 6 (kubernet in action)
+
+### EmptyDir (on Node) 
+- delete after pod die 
+[ex](./storage_on_node.yml) 
+
+![ex](../images/emptyDironNode.png)
+---
+
+### Hostpath 
+https://devops.vn/posts/bai-18-su-dung-volume-emptydir-hostpath/
+
 
 ### Bước 1: Tạo PersistentVolumeClaim (PVC)
 Tạo yêu cầu cấp phát `1Gi` dung lượng lưu trữ:
