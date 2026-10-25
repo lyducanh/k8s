@@ -1,0 +1,14 @@
+Thank you for installing {{ .Chart.Name }}!
+
+Your release is named: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+
+1. Check Pods status:
+   kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+2. Check Service status:
+   kubectl get svc {{ include "my-app.fullname" . }}
+
+3. Access your application via port-forward:
+   kubectl port-forward svc/{{ include "my-app.fullname" . }} 8080:{{ .Values.service.port }}
+   curl http://localhost:8080

@@ -1,0 +1,13 @@
+# Default values for my-app.
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+message: "Hello from Helm Chart!"

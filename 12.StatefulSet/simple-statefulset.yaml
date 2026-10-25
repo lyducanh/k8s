@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx-stateful
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx-stateful
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx-service"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-stateful
+  template:
+    metadata:
+      labels:
+        app: nginx-stateful
+    spec:
+      initContainers:
+      - name: init-html
+        image: nginx:alpine
+        command:
+        - sh
+        - -c
+        - |
+          if [ ! -f /usr/share/nginx/html/index.html ]; then
+            echo "Hello from Pod: $(hostname) - Storage is persistent!" > /usr/share/nginx/html/index.html
+          fi
+        volumeMounts:
+        - name: web-data
+          mountPath: /usr/share/nginx/html
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: web-data
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: web-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-path"
+      resources:
+        requests:
+          storage: 1Gi
