@@ -6,6 +6,9 @@
 - **Kubernetes Persistent Storage** giải quyết bài toán này bằng cách tách rời vòng đời của dữ liệu khỏi vòng đời của Pod.
 
 
+It's an abstraction layer. The storage backend for PVCs can be a lot of different technologies (NFS, Cloud-Disk, Rook, etc.) but the Interface the Pod uses is always the same (PV). This allows for more flexibility when working with persistent storage.
+
+
 ## 2. Core Concepts (Storage Architecture)
 
 ```
